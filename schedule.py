@@ -164,5 +164,13 @@ schedules_map = {
 			'type': CropType.PUMPKIN,
 			'end': (1, 0),
 		}
+	],
+	'full_maze': [
+		{
+			'begin': (0, 0, North),
+			'rect': (0, 0, 31, 31),
+			'type': CropType.MAZES,
+			'end': (0, 0),
+		},
 	]
 }

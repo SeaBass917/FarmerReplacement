@@ -2,17 +2,23 @@ from movement import plot_route
 import router
 import state
 from schedule import schedules_map
+from hats import put_on_random_hat
+
+ACTIVE_SCHEDULE = 'full_maze'
 
 # Main Entry Point
 def main():
 	height = get_world_size()
 	state.create(height)
+
+	# Every cowboy needs a hat, needs a hat.
+	put_on_random_hat()
 	
 	# Pre-compute each route before we start
 	quick_print("Calculating routes...")
 	schedule = []
 	i = 0
-	for stage in schedules_map['schedule_2']:
+	for stage in schedules_map[ACTIVE_SCHEDULE]:
 		if 'route' in stage and stage['route']:
 			quick_print('stage', str(i)+")", "Using precomputed route.")
 		else:
@@ -59,4 +65,3 @@ def main():
 			router.dispatch(stage)
 
 main()
-#state.reset()

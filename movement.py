@@ -91,3 +91,30 @@ def plot_route(xi, yi, xe, ye, dir0, x0, y0, x1, y1):
 
 	
 	return route
+
+def after_move(x, y, dir):
+	if dir == North:
+		return x, y + 1
+	elif dir == South:
+		return x, y - 1
+	elif dir == East:
+		return x + 1, y
+	elif dir == West:
+		return x - 1, y
+
+def reverse_dir(dir):
+	dir_flip = {
+		North: South,
+		South : North,
+		East: West,
+		West: East,
+	}
+	return dir_flip[dir]
+
+def reverse_route(route):
+
+	route_reversed = []
+	for i in range(len(route) - 1, -1, -1):
+		route_reversed.append(reverse_dir(route[i]))
+
+	return route_reversed

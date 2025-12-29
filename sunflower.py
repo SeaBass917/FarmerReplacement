@@ -1,9 +1,10 @@
 import state
 from plants_base import do_plant
-from movement import go_to
+from movement import go_to, reverse_route
 from utils import sort
 
 stopping_count = 100
+smallest_petal_cnt = 7
 
 def process():
 	if can_harvest():
@@ -49,6 +50,14 @@ def sow_the_field(route):
 
 	return measurements
 
+def do_em_all(route):
+		
+	route_reverse = reverse_route(route)
+	for dir in route_reverse:
+		harvest()
+		move(dir)
+	harvest()
+
 def handle(step):
 	
 	# Scan/sow the route and measure all flowers
@@ -58,7 +67,17 @@ def handle(step):
 	# Pick everything up
 	i = 0
 	while i < stopping_count:
-		x, y, _ = measurements.pop(0)
+		x, y, num_petals = measurements.pop(0)
+
+		# If the highest count is the lowest. THen the whole field is empty.
+		# Do a fun run where we grab all of em real fast.
+		if num_petals == smallest_petal_cnt:
+			xe, ye = step['end']
+			go_to(xe, ye)
+			do_em_all(route)
+			sow_the_field(route)
+			i+=1
+			continue
 
 		go_to(x, y)
 		harvest()
